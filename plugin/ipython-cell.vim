@@ -15,6 +15,7 @@ endif
 let g:ipython_cell_delimit_cells_by = get(g:, 'ipython_cell_delimit_cells_by', 'tags')
 let g:ipython_cell_tag = get(g:, 'ipython_cell_tag', ['# %%', '#%%', '# <codecell>', '##'])
 let g:ipython_cell_valid_marks = get(g:, 'ipython_cell_valid_marks', 'abcdefghijklmnopqrstuvqxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
+let g:ipython_cell_use_nvim_ipy = get(g:, 'ipython_cell_use_nvim_ipy', 0)
 
 function! s:UsingPython3()
   if has('python3')

@@ -42,10 +42,8 @@ def execute_cell(use_cpaste=False):
         else:
             _slimesend("# empty cell")
     else:
-        try:
-            slime_python_ipython = vim.eval('g:slime_python_ipython')
-        except vim.error:
-            slime_python_ipython = False
+        slime_python_ipython = vim.vars.get('slime_python_ipython', 0) \
+                | vim.vars.get('ipython_cell_use_nvim_ipy', 0)
 
         if slime_python_ipython:
             _slimesend(cell)
@@ -338,8 +336,18 @@ def _slimesend(string):
     if not string:
         return
 
+    if vim.vars.get('ipython_cell_use_nvim_ipy', 0):
+        return _nvimipysend(string)
+
     try:
         vim.command('SlimeSend1 ' + CTRL_U + '{}'.format(string))
     except vim.error:
         _error("Could not execute SlimeSend1 command, make sure vim-slime is "
                "installed")
+
+def _nvimipysend(string):
+    try:
+        vim.command('IPyRun1 {}'.format(string))
+    except vim.error:
+        _error("Could not execute IPyRun1 command, make sure nvim-ipy setup "
+               "properly")
